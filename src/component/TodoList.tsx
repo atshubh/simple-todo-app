@@ -1,27 +1,31 @@
 import React, { Component } from "react";
 import Todo from "./Todo";
-import { fetchTodos } from "../actions";
 import { connect } from "react-redux";
+import { Task } from "../features/todo-list/task.interface";
+import {
+  ToDoListState,
+  fetchToDos,
+} from "../features/todo-list/todo-list.slice";
 
 type TodoProps = {
-  fetchTodos: any;
-  data: any;
+  fetchToDos: any;
+  todoList: Task[];
 };
 
 class TodoList extends Component<TodoProps> {
   state = {};
 
   componentDidMount() {
-    this.props.fetchTodos();
+    this.props.fetchToDos();
   }
 
   render() {
-    const { todos } = this.props.data;
+    const toDos = this.props.todoList;
     return (
       <ul className="todo-list">
-        {todos && todos.length
-          ? todos.map((todo: any, index: number) => {
-              return <Todo key={`todo-${index}`} todo={todo.task} />;
+        {toDos && toDos.length
+          ? toDos.map((todo: Task) => {
+              return <Todo key={`todo-${todo.id}`} todo={todo.title} />;
             })
           : "No todos, yay!"}
       </ul>
@@ -29,10 +33,8 @@ class TodoList extends Component<TodoProps> {
   }
 }
 
-const mapStateToProps = ({ data = {}, isLoadingData = false }) => ({
-  data,
-  isLoadingData,
+const mapStateToProps = (state: ToDoListState) => ({
+  todoList: state.list,
 });
-export default connect(mapStateToProps, {
-  fetchTodos,
-})(TodoList);
+
+export default connect(mapStateToProps, { fetchToDos })(TodoList);

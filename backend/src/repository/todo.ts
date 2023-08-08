@@ -1,7 +1,7 @@
 const todoList = {
   todos: [
     {
-      task: "This is a todo example",
+      title: "This is a todo example",
     },
   ],
 };

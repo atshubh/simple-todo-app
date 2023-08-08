@@ -2,7 +2,6 @@
   "name": "todo-api",
   "version": "1.0.0",
   "description": "Todo example APIs",
-  "main": "index.js",
   "scripts": {
     "test": "jest",
     "build": "npx tsc",
