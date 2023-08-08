@@ -1,7 +1,9 @@
-const todoService = (repository: any) => {
+import { Repository } from "../interfaces/repository.interface";
+
+const todoService = (repository: Repository) => {
   return {
-    getTodos: async () => {
-      return await repository.getTodos();
+    getToDos: async () => {
+      return await repository.getToDos();
     },
   };
 };

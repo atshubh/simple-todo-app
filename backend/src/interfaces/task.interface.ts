@@ -3,8 +3,8 @@ export interface Task {
   title: string;
   completed: boolean;
   dateCreated: Date;
-  lastUpdated: Date;
-  dateCompleted: Date;
+  lastUpdated?: Date;
+  dateCompleted?: Date;
   project: string;
-  deleted: boolean;
+  deleted?: boolean;
 }

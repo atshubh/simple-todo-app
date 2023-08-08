@@ -19,9 +19,8 @@ export const todoListSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(
       fetchToDos.fulfilled,
-      (state, action: PayloadAction<{ todos: Task[] }>) => {
-        console.log(action.payload);
-        state.list = action.payload.todos;
+      (state, action: PayloadAction<Task[]>) => {
+        state.list = action.payload;
       },
     );
   },
@@ -29,7 +28,7 @@ export const todoListSlice = createSlice({
 
 export const fetchToDos = createAsyncThunk("tasks/fetchAll", async () => {
   const response = await TodoAPI.fetchAllTasks();
-  return response.data;
+  return response.data.toDos;
 });
 
 export const {} = todoListSlice.actions;

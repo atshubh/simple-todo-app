@@ -4,7 +4,7 @@ import TodoListReducer from "./features/todo-list/todo-list.slice";
 // Debugging purposes
 const store = configureStore({
   reducer: {
-    todoListReducer: TodoListReducer,
+    todoList: TodoListReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });
