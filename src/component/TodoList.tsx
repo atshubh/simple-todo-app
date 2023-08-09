@@ -1,37 +1,41 @@
-import React, { Component } from "react";
+import React, { Component, type ReactNode } from "react";
 import Todo from "./Todo";
-import { connect } from "react-redux";
-import { Task } from "../features/todo-list/task.interface";
+import { type ConnectedProps, connect } from "react-redux";
 import { fetchToDos } from "../features/todo-list/todo-list.slice";
-import { RootState } from "../store";
+import { type RootState } from "../store";
 
-type TodoProps = {
-  fetchToDos: Function;
-  todoList: Task[];
-};
+interface TodoProps extends PropsFromRedux {
+  project: string;
+}
 
 class TodoList extends Component<TodoProps> {
-  componentDidMount() {
-    this.props.fetchToDos();
-  }
+  componentDidMount = async () => {
+    await this.props.fetchToDos();
+  };
 
-  render() {
-    const toDos = this.props.todoList;
-    console.log(this.props);
+  render(): ReactNode {
+    const toDos = [...this.props.todoList]
+      .filter((task) => !task.deleted)
+      .sort((a, b) => (a.completed && !b.completed ? 1 : -1));
+
     return (
       <ul className="todo-list">
-        {toDos && toDos.length
-          ? toDos.map((todo: Task) => {
-              return <Todo key={`todo-${todo.id}`} todo={todo.title} />;
-            })
-          : "No todos, yay!"}
+        {toDos.map((todo) => {
+          return <Todo key={todo.id} id={todo.id} />;
+        })}
       </ul>
     );
   }
 }
 
-const mapStateToProps = (state: RootState) => ({
-  todoList: state.todoList.list,
-});
+const mapStateToProps = (state: RootState) => {
+  return {
+    todoList: state.todoList.list,
+  };
+};
 
-export default connect(mapStateToProps, { fetchToDos })(TodoList);
+const connector = connect(mapStateToProps, { fetchToDos });
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+export default connector(TodoList);

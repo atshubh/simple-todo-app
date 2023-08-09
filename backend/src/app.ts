@@ -1,8 +1,10 @@
 import { server } from "./server";
 
-const PORT = process.env.PORT || 9091;
+const PORT = process.env.PORT ?? 9091;
 const app = server();
 
 app.listen(PORT, () => {
   console.log(`Server started. Port ${PORT}`);
 });
+
+export default app;

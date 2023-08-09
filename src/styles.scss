@@ -1,0 +1,75 @@
+.app-root {
+  font-family: sans-serif;
+  display: flex;
+  align-items: stretch;
+  flex-flow: row wrap;
+  width: 100%;
+  padding: 0 1.5rem;
+}
+
+/** add todo **/
+.add-todo {
+  height: 24px;
+  width: calc(50% - 1.5rem);
+  padding: 0.2rem 1rem;
+  border-radius: 1rem;
+}
+
+.add-todo-container {
+  width: 100%;
+}
+
+.todo-list-container {
+  width: 50%;
+}
+
+/** todo list **/
+.todo-list {
+  margin-top: 1rem;
+  text-align: left;
+  list-style: none;
+  padding: 0;
+}
+
+/** todo item **/
+.todo-item {
+  line-height: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-radius: 1rem;
+  margin-top: 12px;
+  border: 1px solid #ddd;
+
+  label {
+    width: 100%;
+    cursor: pointer;
+  }
+
+  .delete-button {
+    background-color: #fff;
+    border: 0;
+    border-radius: 1rem;
+    height: 24px;
+    width: 24px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #ddd;
+    }
+  }
+}
+
+.task-checkbox {
+  margin-right: 0.5rem;
+  padding: 10px;
+}
+
+s {
+  opacity: 0.4;
+}

@@ -9,6 +9,8 @@ const container = document.getElementById("root");
 const root = createRoot(container as Element);
 root.render(
   <Provider store={store}>
-    <TodoApp />
-  </Provider>
+    <div className="app-root">
+      <TodoApp />
+    </div>
+  </Provider>,
 );

@@ -1,6 +1,14 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Task } from "./task.interface";
+import {
+  type PayloadAction,
+  createAsyncThunk,
+  createSlice,
+} from "@reduxjs/toolkit";
+import { type Task } from "./task.interface";
 import { TodoAPI } from "../../apis/todo.api";
+import {
+  type UpdateTaskActionPayload,
+  type AddTaskActionPayload,
+} from "./task-actions.interface";
 
 export interface ToDoListState {
   list: Task[];
@@ -17,20 +25,62 @@ export const todoListSlice = createSlice({
   initialState: initialToDoListState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(
-      fetchToDos.fulfilled,
-      (state, action: PayloadAction<Task[]>) => {
+    builder
+      .addCase(fetchToDos.fulfilled, (state, action: PayloadAction<Task[]>) => {
         state.list = action.payload;
-      },
-    );
+      })
+      .addCase(
+        addToDo.fulfilled,
+        (state, action: PayloadAction<AddTaskActionPayload>) => {
+          state.list = [...state.list, action.payload];
+        },
+      )
+      .addCase(
+        toDoCheckUpdate.fulfilled,
+        (state, action: PayloadAction<UpdateTaskActionPayload>) => {
+          const taskToUpdate = state.list.find(
+            (task) => task.id === action.payload.id,
+          );
+          if (taskToUpdate) taskToUpdate.completed = action.payload.completed;
+        },
+      )
+      .addCase(deleteToDo.fulfilled, (state, action: PayloadAction<number>) => {
+        const taskToUpdate = state.list.find(
+          (task) => task.id === action.payload,
+        );
+        if (taskToUpdate) taskToUpdate.deleted = true;
+      });
   },
 });
 
-export const fetchToDos = createAsyncThunk("tasks/fetchAll", async () => {
+export const fetchToDos = createAsyncThunk("api/task", async () => {
   const response = await TodoAPI.fetchAllTasks();
   return response.data.toDos;
 });
 
-export const {} = todoListSlice.actions;
+export const addToDo = createAsyncThunk(
+  "api/task/add",
+  async (payload: AddTaskActionPayload) => {
+    const task = { ...payload };
+    await TodoAPI.addToDo(task);
+    return task;
+  },
+);
+
+export const toDoCheckUpdate = createAsyncThunk(
+  "api/task/toDoCheckUpdate",
+  async (payload: UpdateTaskActionPayload) => {
+    await TodoAPI.updateToDo(payload);
+    return payload;
+  },
+);
+
+export const deleteToDo = createAsyncThunk(
+  "api/task/deleteToDo",
+  async (id: number) => {
+    await TodoAPI.updateToDo({ id, deleted: true });
+    return id;
+  },
+);
 
 export default todoListSlice.reducer;
