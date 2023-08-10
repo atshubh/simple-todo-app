@@ -35,6 +35,9 @@ describe.only("To do Express application", () => {
 
   describe("deleteToDo", () => {
     test("delete a to-do from the database", async () => {
+      await request(server())
+        .post("/api/todo/add")
+        .send({ id: 10, title: "new title 2" });
       const deleteResponse = await request(server()).delete(
         "/api/todo/delete?id=10",
       );
@@ -48,6 +51,9 @@ describe.only("To do Express application", () => {
     });
 
     test("do nothing if to-do is not present", async () => {
+      await request(server())
+        .post("/api/todo/add")
+        .send({ id: 10, title: "new title 2" });
       const deleteResponse = await request(server()).delete(
         "/api/todo/delete?id=50",
       );
@@ -57,6 +63,10 @@ describe.only("To do Express application", () => {
 
   describe("updateToDo", () => {
     test("update a to-do in the database", async () => {
+      await request(server())
+        .post("/api/todo/add")
+        .send({ id: 100, title: "new title 2" });
+
       const updateResponse = await request(server())
         .put("/api/todo/update?id=100")
         .send({ title: "new title 3" });
@@ -70,6 +80,10 @@ describe.only("To do Express application", () => {
     });
 
     test("do nothing if to-do is not present in the database", async () => {
+      await request(server())
+        .post("/api/todo/add")
+        .send({ id: 300, title: "new title 2" });
+
       const updateResponse = await request(server())
         .put("/api/todo/update?id=200")
         .send({ title: "new title 3" });
