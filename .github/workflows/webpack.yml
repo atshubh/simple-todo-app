@@ -1,0 +1,21 @@
+name: NodeJS with Webpack
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use latest Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: latest
+      - name: Test
+        run: |
+          npm run lint
+          npm run test:coverage
