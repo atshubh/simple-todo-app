@@ -1,4 +1,4 @@
-name: NodeJS with Webpack
+name: Build Pipeline
 
 on:
   push:
@@ -15,6 +15,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: latest
+      - run: npm ci 
       - name: Test
         run: |
           npm run lint
