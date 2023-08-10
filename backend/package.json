@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Todo example APIs",
   "scripts": {
-    "test": "jest",
+    "test": "jest src",
+    "test:coverage": "jest src --coverage",
+    "test:watch": "jest src --watch",
     "build": "npx tsc",
     "start": "concurrently \"npx tsc --watch\" \"nodemon -q dist/app.js\""
   },

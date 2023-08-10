@@ -25,12 +25,14 @@ const server = () => {
     const idToDelete = req.query.id as string;
     if (isFiniteInteger(idToDelete))
       res.json(await toDoService.deleteToDo(parseInt(idToDelete)));
+    else res.json({});
   });
 
   expressServer.put("/api/todo/update", async (req, res) => {
     const idToUpdate = req.query.id as string;
     if (isFiniteInteger(idToUpdate) && req.body && typeof req.body === "object")
       res.json(await toDoService.updateToDo(parseInt(idToUpdate), req.body));
+    else res.json({});
   });
 
   return expressServer;

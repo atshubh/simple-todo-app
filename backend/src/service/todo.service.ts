@@ -13,7 +13,7 @@ const todoService = (repository: Repository): ToDoService => {
     },
 
     addToDo: async (payload: AddTaskActionPayload) => {
-      if (payload.project === null || payload.project !== undefined) {
+      if (!payload.project) {
         payload.project = DEFAULT_PROJECT;
       }
       await repository.addToDo(payload);

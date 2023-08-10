@@ -5,11 +5,12 @@ import {
   type UpdateTaskActionPayload,
 } from "../repository/todo-list.repository.interface";
 import todoService from "./todo.service";
+import { type ToDoService } from "./todo.service.interface";
 
 describe("TodoService", () => {
   let sampleDB: RepositoryBase;
   let sampleRepository: Repository;
-  let serviceToTest: any;
+  let serviceToTest: ToDoService;
 
   beforeEach(() => {
     sampleDB = {
@@ -65,7 +66,9 @@ describe("TodoService", () => {
       await serviceToTest.addToDo(addActionPayload);
 
       expect(sampleRepository.addToDo).toHaveBeenCalledWith(
-        expect.objectContaining({ project: "inbox" }),
+        expect.objectContaining({
+          project: "inbox",
+        }),
       );
     });
   });
@@ -88,7 +91,7 @@ describe("TodoService", () => {
         1,
         expect.objectContaining({
           deleted: true,
-          lastUpdated: expect.any(Date),
+          lastUpdated: expect.any(String),
         }),
       );
     });
@@ -104,7 +107,7 @@ describe("TodoService", () => {
         lastUpdated: dateCompleted,
       };
 
-      serviceToTest.updateToDo(1, updateActionPayload);
+      await serviceToTest.updateToDo(1, updateActionPayload);
 
       expect(sampleRepository.updateToDo).toHaveBeenCalledWith(
         1,
@@ -122,14 +125,14 @@ describe("TodoService", () => {
         title: "updatedTitle",
       };
 
-      serviceToTest.updateToDo(1, updateActionPayload);
+      await serviceToTest.updateToDo(1, updateActionPayload);
 
       expect(sampleRepository.updateToDo).toHaveBeenCalledWith(
         1,
         expect.objectContaining({
           title: "updatedTitle",
           dateCompleted: undefined,
-          lastUpdated: expect.any(Date),
+          lastUpdated: expect.any(String),
         }),
       );
     });
