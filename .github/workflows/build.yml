@@ -2,9 +2,9 @@ name: Build Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   test:
@@ -15,8 +15,23 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: latest
-      - run: npm ci 
+      - run: npm ci
       - name: Test
         run: |
           npm run lint
           npm run test:coverage
+  backend_test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use latest Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: latest
+      - run: npm ci
+        working-directory: "./backend"
+      - name: Test
+        run: |
+          npm run lint
+          npm run test:coverage
+        working-directory: "./backend"
