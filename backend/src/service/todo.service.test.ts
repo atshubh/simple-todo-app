@@ -75,7 +75,7 @@ describe("TodoService", () => {
 
   describe("deleteToDo", () => {
     test("deletes to-do with specified id", async () => {
-      const deletionDate = new Date();
+      const deletionDate = new Date().toISOString();
       await serviceToTest.deleteToDo(1, deletionDate);
 
       expect(sampleRepository.updateToDo).toHaveBeenCalledWith(
